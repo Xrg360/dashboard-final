@@ -175,7 +175,7 @@ export default function MonitoringDashboard() {
                 <TableHead>Current Node</TableHead>
                 <TableHead>Assigned Exit</TableHead>
                 <TableHead>Path Progress</TableHead>
-                <TableHead>Coordinates</TableHead>
+                {/* <TableHead>Coordinates</TableHead> */}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -187,7 +187,7 @@ export default function MonitoringDashboard() {
                   <TableCell>
                     {device.shortest_path?.join(' → ') || 'N/A'}
                   </TableCell>
-                  <TableCell>({device.coordinates.x.toFixed(1)}, {device.coordinates.y.toFixed(1)})</TableCell>
+                  {/* <TableCell>({device.coordinates.x.toFixed(1)}, {(device.coordinates.y + 1).toFixed(1)})</TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
