@@ -2,15 +2,18 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { io } from "socket.io-client";
-import { 
-  ResponsiveContainer, 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
+import {
+
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
   Tooltip,
   CartesianGrid
 } from "recharts";
+import EvacuationRoute from "@/components/ui/evac";
+
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -57,7 +60,7 @@ export default function MonitoringDashboard() {
 
   const calculateAvgPathLength = (devices) => {
     if (!devices.length) return 0;
-    const total = devices.reduce((sum, device) => 
+    const total = devices.reduce((sum, device) =>
       sum + (device.shortest_path?.length || 0), 0);
     return (total / devices.length).toFixed(2);
   };
@@ -105,14 +108,14 @@ export default function MonitoringDashboard() {
                   const nodeName = cell.name;
                   const isFire = metrics.fireNodes.has(nodeName);
                   const congestionLevel = metrics.congestion[nodeName] || 0;
-                  
+
                   return (
                     <div
                       key={nodeName}
                       className={`p-4 w-full text-center rounded-lg border
-                        ${isFire ? 'bg-red-100 border-red-300' : 
-                         congestionLevel > 0 ? 'bg-yellow-100 border-yellow-300' : 
-                         'bg-green-50 border-green-200'}`}
+                        ${isFire ? 'bg-red-100 border-red-300' :
+                          congestionLevel > 0 ? 'bg-yellow-100 border-yellow-300' :
+                            'bg-green-50 border-green-200'}`}
                     >
                       <div className="text-sm font-medium">{nodeName}</div>
                       <div className="text-xs">
@@ -139,8 +142,8 @@ export default function MonitoringDashboard() {
                   {devices.length}/{metrics.exitCapacity[exit]}
                 </span>
               </div>
-              <Progress 
-                value={(devices.length / metrics.exitCapacity[exit]) * 100} 
+              <Progress
+                value={(devices.length / metrics.exitCapacity[exit]) * 100}
                 className="h-2"
               />
             </div>
@@ -175,7 +178,7 @@ export default function MonitoringDashboard() {
                 <TableHead>Current Node</TableHead>
                 <TableHead>Assigned Exit</TableHead>
                 <TableHead>Path Progress</TableHead>
-                {/* <TableHead>Coordinates</TableHead> */}
+                <TableHead>Coordinates</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -187,11 +190,16 @@ export default function MonitoringDashboard() {
                   <TableCell>
                     {device.shortest_path?.join(' → ') || 'N/A'}
                   </TableCell>
-                  {/* <TableCell>({device.coordinates.x.toFixed(1)}, {(device.coordinates.y + 1).toFixed(1)})</TableCell> */}
+                  <TableCell>({device.coordinates.x.toFixed(1)}, {(device.coordinates.y).toFixed(1)})</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
+        </CardContent>
+      </Card>
+      <Card className="col-span-3">
+        <CardContent>
+          <EvacuationRoute />
         </CardContent>
       </Card>
     </div>
